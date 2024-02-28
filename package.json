@@ -1,6 +1,6 @@
 {
   "name": "xexe-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple app for a quick install of a react native project",
   "bin": "./index.js",
   "main": "./index.js",
@@ -12,16 +12,9 @@
   "author": "Fernando Paredes Rios",
   "license": "ISC",
   "dependencies": {
-    "@react-native-masked-view/masked-view": "^0.3.1",
-    "@react-navigation/bottom-tabs": "^6.5.12",
-    "@react-navigation/drawer": "^6.6.7",
-    "@react-navigation/native": "^6.1.10",
-    "@react-navigation/stack": "^6.3.21",
+    "chalk": "^5.3.0",
     "inquirer": "^9.2.15",
-    "react-native-gesture-handler": "^2.15.0",
-    "react-native-reanimated": "^3.7.1",
-    "react-native-safe-area-context": "^4.9.0",
-    "react-native-screens": "^3.29.0"
+    "ora": "^8.0.1"
   },
   "type": "module"
 }

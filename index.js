@@ -2,41 +2,55 @@
 
 import { execSync } from 'child_process';
 import inquirer from 'inquirer';
-// import { platform } from 'os';
+import chalk from 'chalk';
+import ora from 'ora';
 
-function installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation) {
-  console.log('Creating a new React Native project...');
-  // const platformName = platform();
+function installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios) {
+
+  const spinner = ora({
+    spinner: 'dots10',
+    color: 'blue',
+    text: 'Creating a new React Native project',
+  })
+
+  spinner.start()
   execSync(`npx react-native@latest init ${appName}`)
+  spinner.stop()
+
   if (installReactNavigation) {
-    execSync('npm install @react-navigation/native')
-    execSync('npm install react-native-screens react-native-safe-area-context')
+    console.log(chalk.bgBlue('Installing React Navigation....'))
+    execSync(`cd ./${appName} && npm install @react-navigation/native react-native-screens react-native-safe-area-context`)
+    console.log(`React Navigation installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/getting-started/')}`)
   }
 
   if (installStackNavigation) {
-    execSync('npm install @react-navigation/stack')
-    execSync('npm install react-native-gesture-handler')
-    execSync('npm install @react-native-masked-view/masked-view')
+    console.log(chalk.bgBlue('Installing Stack Navigator....'))
+    execSync(`cd ./${appName} && npm install @react-navigation/stack react-native-gesture-handler @react-native-masked-view/masked-view`)
+    console.log(`Stack Navigator installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/stack-navigator')}`)
   }
 
   if (installBottomTabsNavigation) {
-    execSync('npm install @react-navigation/bottom-tabs')
+    console.log(chalk.bgBlue('Installing Bottom Tabs Navigator....'))
+    execSync(`cd ./${appName} && npm install @react-navigation/bottom-tabs`)
+    console.log(`Bottom Tabs Navigator installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/bottom-tab-navigator')}`)
   }
 
   if (installDrawerNavigation) {
-    execSync('npm install @react-navigation/drawer')
-    execSync('npm install react-native-gesture-handler react-native-reanimated')
+    console.log(chalk.bgBlue('Installing Drawer Navigator....'))
+    execSync(`cd ./${appName} && npm install @react-navigation/drawer react-native-gesture-handler react-native-reanimated`)
+    console.log(`Drawer Navigator installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/drawer-navigator')}`)
   }
 
-  // if (platformName == 'darwin') {
-  //   execSync(`cd ${appName}`)
-  //   execSync('bundle install')
-  //   execSync('npx pod-install')
-  // }
-  console.log('If you are on Mac run npx pod-install on your root folder')
-  console.log('To run your project: cd yourProject and write the command npm run android or yarn android')
-  console.log('For ios use npm run ios or yarn ios')
-  console.log('App is ready, thank you!');
+  if (installAxios) {
+    console.log(chalk.bgBlue('Installing Axios....'))
+    execSync(`cd ./${appName} && npm i axios`)
+    console.log(`Axios installed.`)
+  }
+
+  console.log(chalk.yellow('If you are on Mac run npx pod-install on your root folder'))
+  console.log(chalk.green('To run your project: cd yourProject and write the command npm run android or yarn android'))
+  console.log(chalk.cyan('For ios use npm run ios or yarn ios'))
+  console.log(chalk.gray('App is ready, thank you! (っ◕‿◕)っ'));
 }
 
 
@@ -79,16 +93,21 @@ async function main() {
         message: 'Do you want to install Drawer Navigator?',
         choices: ['Yes', 'No']
       },
-
-
+      {
+        type: 'list',
+        name: 'axios',
+        message: 'Do you want to install Axios?',
+        choices: ['Yes', 'No']
+      }
     ])
     .then(answers => {
-      const { appName, reactNavigation, stackNavigation, bottomTabsNavigation, drawerNavigation } = answers;
+      const { appName, reactNavigation, stackNavigation, bottomTabsNavigation, drawerNavigation, axios } = answers;
       const installReactNavigation = reactNavigation === 'Yes';
       const installStackNavigation = stackNavigation === 'Yes';
       const installBottomTabsNavigation = bottomTabsNavigation === 'Yes';
       const installDrawerNavigation = drawerNavigation === 'Yes';
-      installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation);
+      const installAxios = axios === 'Yes'
+      installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios);
     })
     .catch(error => {
       console.error('Error:', error);
