@@ -1,6 +1,6 @@
 {
   "name": "xexe-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple app for a quick install of a react native project",
   "bin": "./index.js",
   "main": "./index.js",
