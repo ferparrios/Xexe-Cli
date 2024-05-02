@@ -37,7 +37,7 @@ function installReactNativeCli(appName, installReactNavigation, installStackNavi
 
   if (installDrawerNavigation) {
     console.log(chalk.bgBlue('Installing Drawer Navigator....'))
-    execSync(`cd ./${appName} && npm install @react-navigation/drawer react-native-gesture-handler react-native-reanimated`)
+    execSync(`cd ./${appName} && npm install @react-navigation/drawer react-native-gesture-handler react-native-reanimated@3.9.0-rc.1`)
     console.log(`Drawer Navigator installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/drawer-navigator')}`)
   }
 
