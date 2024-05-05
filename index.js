@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
 
-function installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios) {
+function installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios, addDirectories) {
 
   const spinner = ora({
     spinner: 'dots10',
@@ -37,7 +37,7 @@ function installReactNativeCli(appName, installReactNavigation, installStackNavi
 
   if (installDrawerNavigation) {
     console.log(chalk.bgBlue('Installing Drawer Navigator....'))
-    execSync(`cd ./${appName} && npm install @react-navigation/drawer react-native-gesture-handler react-native-reanimated@3.9.0-rc.1`)
+    execSync(`cd ./${appName} && npm install @react-navigation/drawer react-native-gesture-handler react-native-reanimated`)
     console.log(`Drawer Navigator installed, read the documentation for configure your project: ${chalk.blue('https://reactnavigation.org/docs/drawer-navigator')}`)
   }
 
@@ -45,6 +45,17 @@ function installReactNativeCli(appName, installReactNavigation, installStackNavi
     console.log(chalk.bgBlue('Installing Axios....'))
     execSync(`cd ./${appName} && npm i axios`)
     console.log(`Axios installed.`)
+  }
+
+  if (addDirectories){
+    console.log(chalk.bgBlue('Adding src folder...'))
+    execSync(`cd ./${appName} && mkdir src`)
+    execSync(`cd ./${appName}/src && mkdir components`)
+    execSync(`cd ./${appName}/src && mkdir screens`)
+    execSync(`cd ./${appName}/src && mkdir api`)
+    execSync(`cd ./${appName}/src && mkdir utils`)
+    execSync(`cd ./${appName}/src && mkdir navigation`)
+    execSync(`cd ./${appName}/src && mkdir assets`)
   }
 
   console.log(chalk.yellow('If you are on Mac run npx pod-install on your root folder'))
@@ -98,16 +109,23 @@ async function main() {
         name: 'axios',
         message: 'Do you want to install Axios?',
         choices: ['Yes', 'No']
+      },
+      {
+        type: 'list',
+        name: 'files',
+        message: 'Do you want to add a folder structure for your files?',
+        choices: ['Yes', 'No']
       }
     ])
     .then(answers => {
-      const { appName, reactNavigation, stackNavigation, bottomTabsNavigation, drawerNavigation, axios } = answers;
+      const { appName, reactNavigation, stackNavigation, bottomTabsNavigation, drawerNavigation, axios, files } = answers;
       const installReactNavigation = reactNavigation === 'Yes';
       const installStackNavigation = stackNavigation === 'Yes';
       const installBottomTabsNavigation = bottomTabsNavigation === 'Yes';
       const installDrawerNavigation = drawerNavigation === 'Yes';
       const installAxios = axios === 'Yes'
-      installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios);
+      const addDirectories = files === 'Yes'
+      installReactNativeCli(appName, installReactNavigation, installStackNavigation, installBottomTabsNavigation, installDrawerNavigation, installAxios, addDirectories);
     })
     .catch(error => {
       console.error('Error:', error);
