@@ -14,7 +14,7 @@ function installReactNativeCli(appName, installReactNavigation, installStackNavi
   })
 
   spinner.start()
-  execSync(`npx react-native@latest init ${appName}`)
+  execSync(`npx @react-native-community/cli@latest init ${appName}`)
   spinner.stop()
 
   if (installReactNavigation) {
